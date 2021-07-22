@@ -1,0 +1,77 @@
+@charset 'UTF-8'; 
+
+@import 'variables'; 
+@import 'mixins';
+@import 'fonts'; 
+
+
+html{
+	font-size: 55%;
+
+	@include breakpoint($tablet){
+		font-size: 62.5%;
+	}
+}
+
+*{
+	padding: 0;
+	margin: 0;
+}
+
+h1, h2, h3, h4{  
+	@include semibold-font;
+}
+
+
+body{   
+	font-size: $base-font-size;	 
+	@include normal-font;
+}
+
+p{
+	font-size: $base-font-size;	
+	line-height: $base-font-size + 0.4 ;
+	margin-bottom: 0;
+}
+
+button{
+	@include normal-font;
+	border: 0;
+	outline: 0;
+
+	&.btn{
+		@include semibold-font; 
+		padding: 0.9rem 1.6rem;
+		background-color: $blue;
+		color: $white;
+		text-transform: uppercase;
+		font-size: $base-font-size - 0.3;
+		letter-spacing: 0.01rem; 
+		border-radius: 0.3rem; 
+		cursor: pointer;
+
+		&:hover{
+			background-color: darken($blue, 10%);
+		}
+	}
+}
+
+
+.container-fluid{
+	@include calc("width", "100% - 3rem");
+	padding: 0 1.5rem;
+
+	.container{
+		max-width: 114rem;
+		margin: auto;
+	}
+}
+
+.page{
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+}
+
+ 
+ 
+

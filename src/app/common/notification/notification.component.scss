@@ -1,0 +1,29 @@
+@import "../../../styles.scss";
+
+.notification{
+	padding: 2rem;
+	font-size: $base-font-size - 0.2;	
+	border: 1px dashed;
+	background: inherit;
+	color: inherit;
+    text-align: center; 
+
+	@include breakpoint($tablet){
+		padding: 3rem;
+	}
+
+	&.notification-info{ 
+		background-color: $lighter-gray;
+		border-color: darken($lighter-gray, 5%);
+	}
+
+	&.notification-warn{ 
+		background-color: lighten($warn-red, 45%);
+		border-color: $warn-red;
+		color: $warn-red;
+	}
+
+	p{
+		font-size: inherit;
+	}
+}

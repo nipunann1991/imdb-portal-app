@@ -1,0 +1,50 @@
+<div class="search-results-page page container-fluid">
+    <div class="search-results-page-inner container">  
+        
+        <app-notification></app-notification> 
+
+        <div *ngIf="!moviesList && isLoading">Searching Movies...</div>
+        <div class="movies-wrapper" *ngIf="moviesList && checkResponse(moviesList?.Response)"> 
+            <p class="total-results">Total Results: {{ moviesList?.totalResults }} </p>
+            <ul class="movies-list"> 
+                <li class="movie-block" *ngFor="let movie of moviesList?.Search; let i = index" [ngClass]="{ 'expand': movie.Expand }">
+                    <div class="movie-block-inner">
+                        <div class="movie-image">
+                            <img [src]="movie.Poster" alt="">
+                        </div>  
+                        <div class="movie-description"> 
+                            <h3 class="movie-title">{{movie.Title}}</h3> 
+                            
+                            <ul class="movie-expanded-details" *ngIf="movie.Expand">
+                                <li class="block">
+                                    <h4>Plot</h4>
+                                    <p>{{movie.MovieData?.Plot}}</p>
+                                </li>
+                                <li class="block">
+                                    <h4>Actors</h4>
+                                    <p>{{movie.MovieData?.Actors}}</p>
+                                </li>
+                                <li class="block">
+                                    <h4>Ratings</h4>
+                                    <ul class="ratings">
+                                        <li *ngFor="let rating of movie.MovieData?.Ratings">- {{rating.Source}}: {{rating.Value}}</li>
+                                    </ul> 
+                                </li>
+                            </ul> 
+                            
+                            <div class="movie-footer-details">
+                                <p class="year">{{movie.Year}}</p>
+                                <button *ngIf="!movie.Expand" class="btn btn-details" (click)="expandDetails(movie.imdbID, i)">Details</button>
+                                <a *ngIf="movie.Expand" href="javascript:void(0)" (click)="expandDetails(movie.imdbID, i)" class="close-item">Close</a>
+                            </div> 
+                        </div>  
+                    </div> 
+                </li> 
+            </ul> 
+
+            <app-pagination></app-pagination>
+
+        </div> 
+    </div>
+</div> 
+

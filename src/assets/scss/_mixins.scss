@@ -1,0 +1,89 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+@use 'sass:math';
+@mixin parent($context) {
+  #{$context} & {
+    @content;
+  }
+}
+
+@mixin clearfix() {
+  *zoom: 1;
+    &:before, &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    font-size: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  
+}
+
+@mixin no-underline() { 
+    &:link, &:visited, &:hover, &:active { 
+        text-decoration: none;
+    }
+}
+
+@mixin box { 
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+    box-sizing: border-box; 
+}
+
+@mixin breakpoint($context) { 
+    @media screen and (min-width: $context) { 
+        @content;
+    }
+}
+
+@mixin breakpointMax($context) { 
+    @media screen and (max-width: $context) { 
+        @content;
+    }
+}
+ 
+@mixin flex() {
+    display: -webkit-flex;
+    display: flex; 
+} 
+
+@mixin flex-column() {
+   @include flex();
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+ 
+@mixin calc($key, $value) {
+    #{$key}: -webkit-calc(#{$value});
+    #{$key}: -moz-calc(#{$value});
+    #{$key}: calc(#{$value});
+}
+
+@mixin cols($val) {
+  flex: 0 0 auto;
+  flex-direction: row;
+  padding: 0 1.5rem; 
+  @include calc("width", "100% - 3rem");
+ 
+  @include breakpoint($tablet){    
+    @include calc("width", math.div(100, 12) * $val + "% - 3rem");
+  };
+  
+} 
+
+@mixin box-shadow($top, $right, $bottom, $left, $color, $inset: false) {
+    @if $inset {
+        -webkit-box-shadow: inset $top $right $bottom $left $color;
+        -moz-box-shadow: inset $top $right $bottom $left $color;
+        box-shadow: inset $top $right $bottom $left $color;
+    }
+    @else {
+        -webkit-box-shadow: $top $right $bottom $left $color;
+        -moz-box-shadow: $top $right $bottom $left $color;
+        box-shadow: $top $right $bottom $left $color;
+    }
+}

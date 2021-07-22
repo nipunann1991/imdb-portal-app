@@ -1,0 +1,4 @@
+<div class="welcome-alert notification" *ngIf="notificationData"  [ngClass]="{ 'notification-warn': notificationData.isError , 'notification-info': !notificationData.isError }" > 
+    <p>{{notificationData.Text}}</p>
+</div>  
+ 
