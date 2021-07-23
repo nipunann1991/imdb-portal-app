@@ -19,9 +19,7 @@ export class SearchResultsPageComponent implements OnInit {
   searchMovieSubscription: Subscription;
   paginationSubscription: Subscription;
   moviesList: IMoviesListTemplate & IMoviesListErrorTemplate
-  error: object;
-  movieData: IMovieDataTemplate;  
-  currentPage: number;
+  movieData: IMovieDataTemplate;
   isLoading: boolean = false;
 
   constructor(
@@ -32,12 +30,14 @@ export class SearchResultsPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {  
+
      /// listen to the string user searches and call the api.  
     this.searchMovieSubscription = this.search.searchMovie.subscribe((searchString: string) => {
       this.searchString = searchString;      
       this.searchString ? this.getMovieList() : this.notify.notifyError({ Response: "Fasle", Error: "Search can't be empty. Please try again"});  
     })
 
+    /// listen to the pagination and load the data according to the pagination.  
     this.paginationSubscription = this.pagination.setPaginationIndex.subscribe((pageIndex: number) => {
       pageIndex ? this.getMovieList(pageIndex) : ""; 
     })
@@ -45,14 +45,13 @@ export class SearchResultsPageComponent implements OnInit {
  
 
   /// get the movie list on search and update the properties.
-  getMovieList(page: number = 1){ 
+  getMovieList(pageIndex: number = 1){ 
 
     this.notify.notifyHide();
     this.isLoading = true;
 
-    let parms = {movieTitle: this.searchString, page: page };
-    this.currentPage = page; 
-
+    let parms = {movieTitle: this.searchString, page: pageIndex };
+     
     this.movie.getMovieBySearchTerm(parms).pipe(
       map( (res: IMoviesListTemplate & IMoviesListErrorTemplate) => {  
         (this.checkResponse(res.Response)) ? res.Search.map(x => { x.Expand = false; x.MovieData = {} }) : "" ;
@@ -65,10 +64,10 @@ export class SearchResultsPageComponent implements OnInit {
 
           if(this.checkResponse(this.moviesList.Response)){ 
             let collection = Array.from(Array(parseInt(this.moviesList?.totalResults)).keys())
-            this.pagination.getPageData({ pageIndex: this.currentPage, collection: collection })
+            this.pagination.getPageData({ pageIndex: pageIndex, collection: collection })
 
           }else{
-            this.notify.notifyError(this.moviesList)
+            this.notify.notifyError(this.moviesList); 
           }
           
           this.isLoading = false;
@@ -85,6 +84,7 @@ export class SearchResultsPageComponent implements OnInit {
     this.moviesList.Search[i].Expand =  !this.moviesList.Search[i].Expand;
     this.moviesList.Search[i].Expand ? this.getMovieData(id, i) : ""; 
   }
+
 
   /// Call the endpoint to get details a perticuler movie.  
   getMovieData(id, index){

@@ -7,20 +7,20 @@ import { INotificationDataError, INotificationDataInfo } from "../models/iNotifi
 })
 export class NotificationService {
 
-  private listenToSearch = new BehaviorSubject(null);
-  notification = this.listenToSearch.asObservable();
+  private listenToNotification = new BehaviorSubject(null);
+  notification = this.listenToNotification.asObservable();
 
   constructor() { }
 
   notifyError(notify: INotificationDataError) {
-    this.listenToSearch.next({Text: notify.Error , isError: true})
+    this.listenToNotification.next({Text: notify.Error , isError: true})
   }
 
   notifyInfo(notify: INotificationDataInfo) {
-    this.listenToSearch.next({...notify, isError: false})
+    this.listenToNotification.next({...notify, isError: false})
   }
 
   notifyHide(){
-    this.listenToSearch.next(null)
+    this.listenToNotification.next(null)
   }
 }
